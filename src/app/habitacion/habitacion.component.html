@@ -1,0 +1,84 @@
+<div class="container">
+
+    <div class="regentry">
+        <div class="text-left">
+            <h1>Habitaciones</h1>
+        </div>
+        <div class="text-right">
+            <button type="submit" class="btn btn-primary" (click)="onNew()">Nueva Habitación</button>
+        </div>
+        <form (ngSubmit)="onSave()" *ngIf="visible">
+
+            <div class="row">
+
+                <div class="col-md-4">
+                    <label for="numeroHabitacion-input" class="col-form-label">Numero Habitación</label>
+                    <input class="form-control" type="text" [(ngModel)]="habitacionModel.numeroHabitacion" name="numeroHabitacion" placeholder="Digitar No. de la Habitación">
+                </div>
+                <div class="col-md-4">
+                    <label for="tipohabitacion-input" class="col-form-label">Tipo Habitación</label>
+                    <input class="form-control" type="text" [(ngModel)]="habitacionModel.tipoHabitacion" name="tipoHabitacion" placeholder="Digitar Tipo de Habitación">
+                </div>
+
+                <div class="col-md-4">
+                    <label for="numeroHabitacion-input">Número Habitación</label>
+                    <input class="form-control" type="text" [(ngModel)]="habitacionModel.numeroHabitacion" name="numeroHabitacion" placeholder="Digitar Número Habitación">
+                </div>
+            </div>
+
+            <br>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <label for="servicioHabitacion-input">Servicios</label>
+                    <input class="form-control" type="text" [(ngModel)]="habitacionModel.servicioHabitacion" name="servicioHabitacion" placeholder="Digitar los Servicios de la Habitación, separados por coma">
+                </div>
+                <div class="col-md-4">
+                    <label for="precioHabitacion-input">Precio Habitación</label>
+                    <input class="form-control" type="text" [(ngModel)]="modelHabitacion.precioHabitacion" name="precioHabitacion" placeholder="Digitar precio de la Habitación">
+                </div>
+            </div>
+
+            <br>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <button type="button" class="{{submitButton}} float-right" (click)="onSave()">{{submitType}}</button>
+                    <button type="button" class="btn btn-primary float-right" (click)="onCancel()">Cancelar</button>
+                </div>
+            </div>
+
+        </form>
+    </div>
+    <br>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>NUMERO HAB.</th>
+                <th>TIPO HAB.</th>
+                <th>SERVICIO HAB.</th>
+                <th>PRECIO HAB.</th>
+                <th>DESCUENTO HAB.</th>
+                <th>ESTADO HAB.</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let habitacion of habitaciones; let i = index">
+                <th scope="row">{{ i + 1 }}</th>
+                <td>{{ habitacion.numeroHabitacion }}</td>
+                <td>{{ habitacion.tipoHabitacion }}</td>
+                <td>{{ habitacion.servicioHabitacion }}</td>
+                <td>{{ habitacion.precioHabitacion }}</td>
+                <td>{{ habitacion.descuentoHabitacion }}</td>
+                <td>{{ habitacion.estadohabitacion?"Activo":"Inactivo"}}</td>
+                <td>
+                    <button type="button" class="btn btn-info" (click)="onEdit(habitacion, i)">Modificar</button>
+                </td>
+                <td>
+                    <button type="button" class="btn btn-danger" (click)="onDelete()">Eliminar</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

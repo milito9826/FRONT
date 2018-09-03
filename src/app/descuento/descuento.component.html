@@ -1,0 +1,82 @@
+<div class="container">
+
+    <div class="regentry">
+        <div class="text-left">
+            <h1>Descuentos</h1>
+        </div>
+        <div class="text-right">
+            <button type="submit" class="btn btn-primary" (click)="onNew()">Nuevo Descuento</button>
+        </div>
+        <form (ngSubmit)="onSave()" *ngIf="visible">
+
+            <div class="row">
+
+                <div class="col-md-4">
+                    <label for="idDescuento-input" class="col-form-label">Id. Descuento</label>
+                    <input class="form-control" type="text" [(ngModel)]="descuentoModel.idDescuento" name="idDescuento" placeholder="Digitar No. Identificación del Descuento">
+                </div>
+                <div class="col-md-4">
+                    <label for="tipoDescuento-input" class="col-form-label">Tipo Descuento</label>
+                    <input class="form-control" type="text" [(ngModel)]="descuentoModel.tipoDescuento" name="tipoDescuento" placeholder="Digitar el Tipo de Descuento">
+                </div>
+
+                <div class="col-md-4">
+                    <label for="fechaInicioDescuento-input">Fecha Inicio Descuento</label>
+                    <input class="form-control" type="text" [(ngModel)]="descuentoModel.fechaInicioDescuento" name="fechaInicioDescuento">
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-md-4">
+                    <label for="fechaFinDescuento-input">Fecha Fin Descuento</label>
+                    <input class="form-control" type="text" [(ngModel)]="descuentoModel.fechaFinDescuento" name="fechaFinDescuento">
+                </div>
+                <div class="col-md-4">
+                    <label for="porcentajeDescuento-input">Porcentaje de Descuento</label>
+                    <input class="form-control" type="text" [(ngModel)]="descuentoModel.porcentajeDescuento" name="porcentajeDescuento" placeholder="Digitar Porcentaje de Descuento">
+                </div>
+            </div>
+
+            <br>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <button type="button" class="{{submitButton}} float-right" (click)="onSave()">{{submitType}}</button>
+                    <button type="button" class="btn btn-primary float-right" (click)="onCancel()">Cancelar</button>
+                </div>
+
+            </div>
+        </form>
+    </div>
+    <br>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>ID. DESCUENTO</th>
+                <th>TIPO DESCUENTO</th>
+                <th>FECHA INICIO DTO</th>
+                <th>FECHA FIN DTO</th>
+                <th>PORCENTAJE DE DTO</th>
+                <th>ESTADO DTO</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let descuento of descuentos; let i = index">
+                <th scope="row">{{ i + 1 }}</th>
+                <td>{{ descuento.idDescuento }}</td>
+                <td>{{ descuento.tipoDescuento }}</td>
+                <td>{{ descuento.fechaInicioDescuento}}</td>
+                <td>{{ descuento.fechaFinDescuento }}</td>
+                <td>{{ descuento.porcentajeDescuento }}</td>
+                <td>{{ descuento.estadoDescuento?"Activo":"Inactivo"}}</td>
+                <td>
+                    <button type="button" class="btn btn-info" (click)="onEdit(descuento, i)">Modificar</button>
+                </td>
+                <td>
+                    <button type="button" class="btn btn-danger" (click)="onDelete()">Eliminar</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

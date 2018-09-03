@@ -1,0 +1,94 @@
+<div class="login-page">
+    <div class="row justify-content-md-center">
+        <div class="col-md-4">
+            <img src="assets/images/logo.png" width="200px" />
+            <h1>Motels Inn</h1>
+            <form [formGroup]="loginUsuarioGroup">
+                <div class="form-content">
+                    <div>
+                        <input type="email" class="form-control input-underline input-lg" formControlName="correoUsuario" placeholder="Digitar Correo">
+                        <div *ngIf="loginUsuarioGroup.get('correoUsuario').invalid && (loginUsuarioGroup.get('correoUsuario').dirty || loginUsuarioGroup.get('correoUsuario').touched)" class="alert alert-danger">
+                            <div *ngIf="loginUsuarioGroup.get('correoUsuario').errors.required">
+                                Correo Usuario Requerido
+                            </div>
+                            <div *ngIf="loginUsuarioGroup.get('correoUsuario').errors.pattern">
+                                Formato correo abc@def.com
+                            </div>
+                        </div>
+
+                    </div>
+                    <br>
+                    <div>
+                        <input type="password" class="form-control input-underline input-lg" formControlName="claveUsuario" placeholder="Digitar Clave">
+                        <div *ngIf="loginUsuarioGroup.get('claveUsuario').invalid && (loginUsuarioGroup.get('claveUsuario').dirty || loginUsuarioGroup.get('claveUsuario').touched)" class="alert alert-danger">
+                            <div *ngIf="loginUsuarioGroup.get('claveUsuario').errors.required">
+                                Clave Usuario Requerida
+                            </div>
+                            Minimo 8, Letras y Numeros
+                        </div>
+                    </div>
+
+                </div>
+                <a data-toggle="modal" data-target="#resetClave" href="#" (click)="olvideClave"> Olvide la Clave</a> &nbsp;
+                <button type="button" class="btn rounded-btn float-right" (click)="onLogin()"> Ingresar </button> &nbsp;
+
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="resetClave" tabindex="-1" role="dialog" aria-labelledby="resetClave" aria-hidden="true">
+    <div class="modal-dialog modal-sm" role="document" style="max-width: 30%">
+        <div class="modal-content">
+            <div class="modal-header text-center ">
+                <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+                <div class="form-gap"></div>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    <div class="text-center">
+                                        <h3><i class="fa fa-lock fa-4x"></i></h3>
+                                        <h2 class="text-center">Olvido la Clave?</h2>
+                                        <p>Puedes Resetear tu Clave aqui.</p>
+                                        <div class="panel-body">
+
+                                            <form id="register-form" role="form" autocomplete="off" class="form" method="post">
+
+                                                <div class="form-group" [formGroup]="verCorreoFormGroup">
+                                                    <div class="input-group">
+                                                        <div class="col-md-12">
+                                                            <input id="verCorreo" type="email" class="form-control" formControlName="verCorreo" placeholder="Digitar Correo">
+                                                            <div *ngIf="verCorreoFormGroup.get('verCorreo').invalid && (verCorreoFormGroup.get('verCorreo').dirty || verCorreoFormGroup.get('verCorreo').touched)" class="alert alert-danger">
+                                                                <div *ngIf="verCorreoFormGroup.get('verCorreo').errors.required">
+                                                                    Correo Usuario Requerido
+                                                                </div>
+                                                                <div *ngIf="verCorreoFormGroup.get('verCorreo').errors.pattern">
+                                                                    Formato correo abc@def.com
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <input type="submit" name="recover-submit" class="btn btn-lg btn-primary btn-block" (click)="resetClave()" value="Resetear Clave">
+                                                </div>
+
+                                                <input type="hidden" class="hide" name="token" id="token" value="">
+                                            </form>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

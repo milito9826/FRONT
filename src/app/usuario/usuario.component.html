@@ -1,0 +1,223 @@
+<div class="container">
+    <div class="regentry">
+
+        <div class="text-left">
+            <h1>Usuarios</h1>
+        </div>
+        <div class="text-right">
+            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#usuariosInactivos">Inactivos</button>
+            <button type="submit" class="btn btn-primary" (click)="onNew()">Nuevo Usuario</button>
+        </div>
+        <form [formGroup]="formularioUsuario" (ngSubmit)="onSave()" *ngIf="visible">
+
+            <div class="row">
+                <div class="col-md-4">
+                    <label for="documentoUsuario-input" class="col-form-label">Documento Usuario</label>
+                    <input id="documentoUsuario" class="form-control" type="text" formControlName="documentoUsuario" placeholder="Digitar No. Documento del Usuario">
+
+                    <div *ngIf="formularioUsuario.get('documentoUsuario').invalid && (formularioUsuario.get('documentoUsuario').dirty || formularioUsuario.get('documentoUsuario').touched)" class="alert alert-danger">
+                        <div *ngIf="formularioUsuario.get('documentoUsuario').errors.required">
+                            Documento Usuario Requerido
+                        </div>
+                        <div *ngIf="formularioUsuario.get('documentoUsuario').errors.minlength">
+                            Documento Incompleto</div>
+                        <div *ngIf="formularioUsuario.get('documentoUsuario').errors.pattern">
+                            Solo se aceptan Números</div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <label for="nombreUsuario-input" class="col-form-label">Nombre</label>
+                    <input class="form-control" type="text" formControlName="nombreUsuario" placeholder="Digitar Nombre">
+                    <div *ngIf="formularioUsuario.get('nombreUsuario').invalid && (formularioUsuario.get('nombreUsuario').dirty || formularioUsuario.get('nombreUsuario').touched)" class="alert alert-danger">
+                        <div *ngIf="formularioUsuario.get('nombreUsuario').errors.required">
+                            Nombre Usuario Requerido
+                        </div>
+                        <div *ngIf="formularioUsuario.get('nombreUsuario').errors.minlength">
+                            Nombre mínimo 3 caracteres</div>
+                        <div *ngIf="formularioUsuario.get('nombreUsuario').errors.pattern">
+                            Solo letras es Permitido</div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <label for="apellidoUsuario-input" class="col-form-label">Apellido</label>
+                    <input class="form-control" type="text" formControlName="apellidoUsuario" placeholder="Digitar Apellido">
+                    <div *ngIf="formularioUsuario.get('apellidoUsuario').invalid && (formularioUsuario.get('apellidoUsuario').dirty || formularioUsuario.get('apellidoUsuario').touched)" class="alert alert-danger">
+                        <div *ngIf="formularioUsuario.get('apellidoUsuario').errors.required">
+                            Apellido Usuario Requerido
+                        </div>
+                        <div *ngIf="formularioUsuario.get('apellidoUsuario').errors.minlength">
+                            Apellido mínimo 3 caracteres</div>
+                        <div *ngIf="formularioUsuario.get('apellidoUsuario').errors.pattern">
+                            Solo letras es Permitido
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="row" [formGroup]="correoFormGroup">
+                <div class="col-md-4">
+                    <label for="correoUsuario-input" class="col-form-label">Correo</label>
+                    <input class="form-control" type="email" formControlName="correoUsuario" placeholder="Digitar Correo">
+                    <div *ngIf="correoFormGroup.get('correoUsuario').invalid && (correoFormGroup.get('correoUsuario').dirty || correoFormGroup.get('correoUsuario').touched)" class="alert alert-danger">
+                        <div *ngIf="correoFormGroup.get('correoUsuario').errors.required">
+                            Correo Usuario Requerido
+                        </div>
+                        <div *ngIf="correoFormGroup.get('correoUsuario').errors.pattern">
+                            Formato correo abc@def.com
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <label for="ccorreoUsuario-input" class="col-form-label">Confirmar Correo</label>
+                    <input class="form-control" type="text" formControlName="ccorreoUsuario" name="ccorreoUsuario" placeholder="Confirmar Correo">
+                    <div *ngIf="correoFormGroup.get('ccorreoUsuario').invalid && (correoFormGroup.get('ccorreoUsuario').dirty || correoFormGroup.get('ccorreoUsuario').touched)" class="alert alert-danger">
+                        Correo no puede estar vacio
+                    </div>
+                    <div class="alert alert-danger" *ngIf="correoFormGroup.errors?.correoNot">
+                        Correo No coincide
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <label for="perfilUsuario" class="col-form-label">Perfil de Usuario</label>
+                    <select class="form-control" type="" formControlName="perfilUsuario">
+                        
+                       
+                        <option value="" disabled selected>Selecciona un Perfil</option>
+                        <option *ngFor="let perfilUsuario of perfiles">{{perfilUsuario.name}}</option>
+                    </select>
+                    <div *ngIf="correoFormGroup.get('perfilUsuario').invalid && (correoFormGroup.get('perfilUsuario').dirty || correoFormGroup.get('perfilUsuario').touched)" class="alert alert-danger">
+                        <div *ngIf="correoFormGroup.get('perfilUsuario').errors.required">
+                            Perfil es requerido
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <br>
+            <div class="row" [formGroup]="claveFormGroup" *ngIf="clave">
+                <div class="col-md-4">
+                    <label for="claveUsuario-input" class="col-form-label">Clave</label>
+                    <input class="form-control" type="password" formControlName="claveUsuario" placeholder="Digitar Clave">
+                    <div *ngIf="claveFormGroup.get('claveUsuario').invalid && (claveFormGroup.get('claveUsuario').dirty || claveFormGroup.get('claveUsuario').touched)" class="alert alert-danger">
+                        <div *ngIf="claveFormGroup.get('claveUsuario').errors.required">
+                            Clave Usuario Requerida
+                        </div>
+                        Minimo 8, Letras y Numeros
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <label for="cclaveUsuario-input" class="col-form-label">Confirmar Clave</label>
+                    <input class="form-control" type="password" formControlName="cclaveUsuario" name="cclaveUsuario" placeholder="Confirmar Clave">
+                    <div *ngIf="claveFormGroup.get('cclaveUsuario').invalid && (claveFormGroup.get('cclaveUsuario').dirty || claveFormGroup.get('cclaveUsuario').touched)" class="alert alert-danger">
+                        Clave no puede estar vacia
+                    </div>
+                    <div class="alert alert-danger" *ngIf="claveFormGroup.errors?.claveNot">
+                        Clave no coicide
+                    </div>
+                </div>
+            </div>
+            <br>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <button type="button" class="{{submitButton}} float-right" (click)="superGuardarEditar()">{{submitType}}</button>
+                    <button type="button" class="btn btn-primary float-right" (click)="onCancel()">Cancelar</button>
+                </div>
+            </div>
+
+        </form>
+
+        <br>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>DOC. USUARIO</th>
+                    <th>NOMBRE</th>
+                    <th>APELLIDO</th>
+                    <th>CORREO</th>
+                    <th>PERFIL</th>
+                    <th>ESTADO</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let usuario of usuarios; let i = index">
+                    <th scope="row">{{ i + 1 }}</th>
+                    <td>{{ usuario.documentoUsuario }}</td>
+                    <td>{{ usuario.nombreUsuario }}</td>
+                    <td>{{ usuario.apellidoUsuario}}</td>
+                    <td>{{ usuario.correoUsuario }}</td>
+                    <td>{{ usuario.perfilUsuario }}</td>
+                    <td>{{ usuario.estadoUsuario?"Activo":"Inactivo"}}</td>
+                    <td>
+                        <button type="button" class="btn btn-info" (click)="onEdit(usuario, i)">Modificar</button>
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-danger" (click)="onDelete(usuario, i)">Eliminar</button>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+    <footer>
+        <td>
+
+        </td>
+    </footer>
+</div>
+
+
+
+<div class="modal fade" id="usuariosInactivos" tabindex="-1" role="dialog" aria-labelledby="usuariosInactivos" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document" style="max-width: 85%">
+        <div class="modal-content">
+            <div class="modal-header text-center ">
+                <h5 class="modal-title w-100 alert-danger" id="usuarioInactivo">Usuarios Inactivos</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>DOC. USUARIO</th>
+                            <th>NOMBRE</th>
+                            <th>APELLIDO</th>
+                            <th>CORREO</th>
+                            <th>PERFIL</th>
+                            <th>ESTADO</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let usuario of usuariosInactivos; let i = index">
+                            <th scope="row">{{ i + 1 }}</th>
+                            <td>{{ usuario.documentoUsuario }}</td>
+                            <td>{{ usuario.nombreUsuario }}</td>
+                            <td>{{ usuario.apellidoUsuario}}</td>
+                            <td>{{ usuario.correoUsuario }}</td>
+                            <td>{{ usuario.perfilUsuario }}</td>
+                            <td>{{ usuario.estadoUsuario?"Activo":"Inactivo"}}</td>
+                            <td>
+                                <button type="button" class="btn btn-primary" (click)="onActivate(usuario, i)">Activar</button>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+            </div>
+        </div>
+    </div>
+</div>

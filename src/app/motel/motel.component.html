@@ -1,0 +1,206 @@
+<div class="container">
+
+    <div class="regentry">
+        <div class="text-left">
+            <h1>Moteles</h1>
+        </div>
+        <div class="text-right">
+            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#motelesInactivos">Inactivos</button>
+            <button type="button" class="btn btn-primary" (click)="onNew()">Nuevo Motel</button>
+        </div>
+        <form [formGroup]="formularioMotel" (ngSubmit)="onSave()" *ngIf="visible">
+
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label for="nitMotel-input" class="col-form-label">Nit Motel</label>
+                            <input class="form-control" type="text" formControlName="nitMotel" name="nitMotel" placeholder="Digitar NIT del Motel">
+                            <div *ngIf="formularioMotel.get('nitMotel').invalid && (formularioMotel.get('nitMotel').dirty || formularioMotel.get('nitMotel').touched)" class="alert alert-danger">
+                                <div *ngIf="formularioMotel.get('nitMotel').errors.required">
+                                    Nit Motel Requerido
+                                </div>
+                                <div *ngIf="formularioMotel.get('nitMotel').errors.minlength">
+                                    Documento Incompleto</div>
+                                <div *ngIf="formularioMotel.get('nitMotel').errors.pattern">
+                                    Solo se aceptan Números</div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="nombreMotel-input" class="col-form-label">Nombre Motel</label>
+                            <input class="form-control" type="text" formControlName="nombreMotel" name="nombreMotel" placeholder="Digitar Nombre del Motel">
+                            <div *ngIf="formularioMotel.get('nombreMotel').invalid && (formularioMotel.get('nombreMotel').dirty || formularioMotel.get('nombreMotel').touched)" class="alert alert-danger">
+                                <div *ngIf="formularioMotel.get('nombreMotel').errors.required">
+                                    Nombre Motel Requerido
+                                </div>
+                                <div *ngIf="formularioMotel.get('nombreMotel').errors.minlength">
+                                    Nombre Mínimo 2</div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label for="direccionMotel-input" class="col-form-label">Direccion</label>
+                            <input class="form-control" type="text" formControlName="direccionMotel" name="direccionMotel" placeholder="Digitar Direccion del Motel">
+                            <div *ngIf="formularioMotel.get('direccionMotel').invalid && (formularioMotel.get('direccionMotel').dirty || formularioMotel.get('direccionMotel').touched)" class="alert alert-danger">
+                                <div *ngIf="formularioMotel.get('direccionMotel').errors.required">
+                                    Direccion Motel Requerida
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label for="telefonoMotel-input">Telefono</label>
+                            <input class="form-control" type="text" formControlName="telefonoMotel" name="telefonoMotel" placeholder="Digitar Telefono del Motel">
+                            <div *ngIf="formularioMotel.get('telefonoMotel').invalid && (formularioMotel.get('telefonoMotel').dirty || formularioMotel.get('telefonoMotel').touched)" class="alert alert-danger">
+                                <div *ngIf="formularioMotel.get('telefonoMotel').errors.required">
+                                    Telefono Motel Requerido
+                                </div>
+                                <div *ngIf="formularioMotel.get('telefonoMotel').errors.minlength">
+                                    Telefono Incompleto</div>
+                                <div *ngIf="formularioMotel.get('telefonoMotel').errors.pattern">
+                                    Solo se aceptan Números</div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="correoMotel-input">Correo</label>
+                            <input class="form-control" type="email" formControlName="correoMotel" name="correoMotel" placeholder="Digitar Correo del Motel">
+                            <div *ngIf="formularioMotel.get('correoMotel').invalid && (formularioMotel.get('correoMotel').dirty || formularioMotel.get('correoMotel').touched)" class="alert alert-danger">
+                                <div *ngIf="formularioMotel.get('correoMotel').errors.required">
+                                    Correo Motel Requerido
+                                </div>
+                                <div *ngIf="formularioMotel.get('correoMotel').errors.pattern">
+                                    Formato correo abc@def.com
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="pagWebMotel-input">Pagina Web del Motel</label>
+                            <input class="form-control" type="text" formControlName="pagWebMotel" name="pagWebMotel" placeholder="Digitar PagWeb del Motel">
+                            <div *ngIf="formularioMotel.get('pagWebMotel').invalid && (formularioMotel.get('pagWebMotel').dirty || formularioMotel.get('pagWebMotel').touched)" class="alert alert-danger">
+                                <div *ngIf="formularioMotel.get('pagWebMotel').errors.required">
+                                    Pagina Motel Requerida
+                                </div>
+                                <div *ngIf="formularioMotel.get('pagWebMotel').errors.pattern">
+                                    Formato www.ejemplo.com
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <br>
+                    <input id="motelBuscar" class="controls" type="text" placeholder="Busqueda">
+                    <br>
+                    <agm-map [latitude]="latitude" [longitude]="longitude" (mapClick)="onChoseLocation($event)">
+                        <agm-marker [latitude]="latitude" [longitude]="longitude" *ngIf="locationChosen">
+                        </agm-marker>
+                    </agm-map>
+                    <!-- mapa   -->
+                </div>
+
+
+
+                <br>
+            </div>
+
+
+            <br>
+            <div class="row">
+                <div class="col-md-12">
+                    <button type="button" class="{{submitButton}} float-right" (click)="superGuardarEditar()">{{submitType}}</button>
+                    <button type="button" class="btn btn-primary float-right" (click)="onCancel()">Cancelar</button>
+                </div>
+
+            </div>
+        </form>
+    </div>
+    <br>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>NIT MOTEL</th>
+                <th>NOMBRE</th>
+                <th>DIRECCION</th>
+                <th>TELEFONO</th>
+                <th>CORREO</th>
+                <th>PAGINA WEB</th>
+                <th>ESTADO</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let motel of moteles; let i = index">
+                <th scope="row">{{ i + 1 }}</th>
+                <td>{{ motel.nitMotel }}</td>
+                <td>{{ motel.nombreMotel }}</td>
+                <td>{{ motel.direccionMotel}}</td>
+                <td>{{ motel.telefonoMotel }}</td>
+                <td>{{ motel.correoMotel }}</td>
+                <td>{{ motel.pagWebMotel }}</td>
+                <td>{{ motel.estadoMotel?"Activo":"Inactivo"}}</td>
+                <td>
+                    <button type="button" class="btn btn-info" (click)="onEdit(motel, i)">Modificar</button>
+                </td>
+                <td>
+                    <button type="button" class="btn btn-danger" (click)="onDelete(motel, i)">Eliminar</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>
+
+
+<div class="modal fade" id="motelesInactivos" tabindex="-1" role="dialog" aria-labelledby="motelesInactivos" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document" style="max-width: 85%">
+        <div class="modal-content">
+            <div class="modal-header text-center ">
+                <h5 class="modal-title w-100 alert-danger" id="motelInactivo">Moteles Inactivos</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>NIT MOTEL</th>
+                            <th>NOMBRE</th>
+                            <th>DIRECCION</th>
+                            <th>TELEFONO</th>
+                            <th>CORREO</th>
+                            <th>PAGINA WEB</th>
+                            <th>ESTADO</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let motel of motelesInactivos; let i = index">
+                            <th scope="row">{{ i + 1 }}</th>
+                            <td>{{ motel.nitMotel }}</td>
+                            <td>{{ motel.nombreMotel }}</td>
+                            <td>{{ motel.direccionMotel}}</td>
+                            <td>{{ motel.telefonoMotel }}</td>
+                            <td>{{ motel.correoMotel }}</td>
+                            <td>{{ motel.pagWebMotel }}</td>
+                            <td>{{ motel.estadoMotel?"Activo":"Inactivo"}}</td>
+                            <td>
+                                <button type="button" class="btn btn-primary" (click)="onActivate(motel, i)">Activar</button>
+                            </td>
+
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,35 @@
+<div class="container">
+
+  <div class="regentry">
+      <div class="text-left">
+          <h1>Reservas</h1>
+      </div>
+      <div class="text-right">
+          <button type="submit" class="btn btn-primary" (click)="onNew()">Verificar Reserva</button>
+      </div>
+  <br>
+  <table class="table table-striped">
+      <thead>
+          <tr>
+              <th>#</th>
+              <th>COD. RESERVA</th>
+              <th>FECHA INGRESO RESERVA</th>
+              <th>FECHA SALIDA RESERVA</th>
+              <th>TIPO RESERVA</th>
+              <th>ESTADO</th>
+              
+          </tr>
+      </thead>
+      <tbody>
+          <tr *ngFor="let reserva of reservas; let i = index">
+              <th scope="row">{{ i + 1 }}</th>
+              <td>{{ reserva.codigoReserva }}</td>
+              <td>{{ reserva.fechaIngresoReserva }}</td>
+              <td>{{ reserva.fechaSalidaReserva}}</td>
+              <td>{{ reserva.tipoReserva }}</td>
+              <td>{{ reserva.estadoMotel?"Activo":"Inactivo"}}</td>
+              
+          </tr>
+      </tbody>
+  </table>
+</div>
