@@ -26,15 +26,11 @@ export class MotelService {
     }
 
     onEdit(motel: Motel, nitMotel) {
-        return this._http.put(`${this.url}/motel/${nitMotel}`, motel);
+        return this._http.patch(`${this.url}/motel/${nitMotel}`, motel);
     }
 
     onList() : Observable<any> {
         return this._http.get(`${this.url}/motel` );
-    }
-
-    onListInactivo() : Observable<any> {
-        return this._http.get(`${this.url}/motelInactivo` );
     }
 
     onView(nitMotel): Observable<any> {

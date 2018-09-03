@@ -6,8 +6,13 @@ import { MotelComponent} from './motel/motel.component';
 import { HabitacionComponent} from './habitacion/habitacion.component';
 import { ReservaComponent} from './reserva/reserva.component';
 import { DescuentoComponent} from './descuento/descuento.component';
+import { NavbarComponent } from './navbar/navbar.component';
 
 const routes: Routes = [
+  {
+    path: 'navbar',
+    component: NavbarComponent
+  },
   {
     path: '',
     component: HomeComponent

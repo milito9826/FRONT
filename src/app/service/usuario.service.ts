@@ -11,7 +11,7 @@ export class UsuarioService {
 
     httpOptions = {
         headers: new HttpHeaders({
-          'Authorization': localStorage.getItem("token")
+          'Authorization': localStorage.getItem('token')
         })
       };
 
@@ -22,37 +22,28 @@ export class UsuarioService {
     constructor(private _http: HttpClient) { }
 
     onSave(usuario: Usuario): Observable<any> {
-        return this._http.post(`${this.url}/usuario`, usuario);
+        return this._http.post(`${this.url}/usuario`, usuario, this.httpOptions);
     }
 
     onEdit(usuario: Usuario, idUsuario):  Observable<any> {
-        return this._http.put(`${this.url}/usuario/${idUsuario}`, usuario);
+        return this._http.put(`${this.url}/usuario/${idUsuario}`, usuario, this.httpOptions);
     }
 
     onListInactivo() : Observable<any> {
-        return this._http.get(`${this.url}/usuarioInactivo` );
+        return this._http.get(`${this.url}/usuarioInactivo`, this.httpOptions);
     }
 
 
     onList() : Observable<any> {
-        return this._http.get(`${this.url}/usuario` );
+        return this._http.get(`${this.url}/usuario`, this.httpOptions);
     }
 
     onView(idUsuario): Observable<any> {
-        return this._http.get(`${this.url}/usuario/${idUsuario}`);
+        return this._http.get(`${this.url}/usuario/${idUsuario}`, this.httpOptions);
     }
 
     onDelete(idUsuario, estadoUsuario): Observable<any> {
-       return this._http.delete(`${this.url}/usuario/${idUsuario}/${estadoUsuario}`);
+       return this._http.delete(`${this.url}/usuario/${idUsuario}/${estadoUsuario}`, this.httpOptions);
     }
-    
-    onlogin(usuario) : Observable<any> {
-        return this._http.post(`${this.url}/login`, usuario);
-      }
-
-
-
-
-
 
 }
