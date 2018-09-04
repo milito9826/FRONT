@@ -5,7 +5,7 @@ export interface Motel {
     telefonoMotel: String;
     correoMotel: String ;
     pagWebMotel: String; 
-    latitudMotel : String;
-    longitudMotel: String;
+    latitudMotel?: String;
+    longitudMotel?: String;
     estadoMotel: Boolean;
 }

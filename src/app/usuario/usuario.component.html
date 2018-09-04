@@ -13,7 +13,7 @@
             <div class="row">
                 <div class="col-md-4">
                     <label for="documentoUsuario-input" class="col-form-label">Documento Usuario</label>
-                    <input class="form-control" type="text" formControlName="documentoUsuario" placeholder="Digitar No. Documento del Usuario">
+                    <input id="documentoUsuario" class="form-control" type="text" formControlName="documentoUsuario" placeholder="Digitar No. Documento del Usuario">
 
                     <div *ngIf="formularioUsuario.get('documentoUsuario').invalid && (formularioUsuario.get('documentoUsuario').dirty || formularioUsuario.get('documentoUsuario').touched)" class="alert alert-danger">
                         <div *ngIf="formularioUsuario.get('documentoUsuario').errors.required">
@@ -71,7 +71,7 @@
                 </div>
 
                 <div class="col-md-4">
-                    <label for="ccorreoUsuario-input">Confirmar Correo</label>
+                    <label for="ccorreoUsuario-input" class="col-form-label">Confirmar Correo</label>
                     <input class="form-control" type="text" formControlName="ccorreoUsuario" name="ccorreoUsuario" placeholder="Confirmar Correo">
                     <div *ngIf="correoFormGroup.get('ccorreoUsuario').invalid && (correoFormGroup.get('ccorreoUsuario').dirty || correoFormGroup.get('ccorreoUsuario').touched)" class="alert alert-danger">
                         Correo no puede estar vacio
@@ -81,7 +81,7 @@
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <label for="perfilUsuario">Perfil de Usuario</label>
+                    <label for="perfilUsuario" class="col-form-label">Perfil de Usuario</label>
                     <select class="form-control" type="" formControlName="perfilUsuario">
                         
                        
@@ -112,7 +112,7 @@
                 </div>
 
                 <div class="col-md-4">
-                    <label for="cclaveUsuario-input">Confirmar Clave</label>
+                    <label for="cclaveUsuario-input" class="col-form-label">Confirmar Clave</label>
                     <input class="form-control" type="password" formControlName="cclaveUsuario" name="cclaveUsuario" placeholder="Confirmar Clave">
                     <div *ngIf="claveFormGroup.get('cclaveUsuario').invalid && (claveFormGroup.get('cclaveUsuario').dirty || claveFormGroup.get('cclaveUsuario').touched)" class="alert alert-danger">
                         Clave no puede estar vacia
@@ -125,7 +125,7 @@
             <br>
 
             <div class="row">
-                <div class="col-md-8">
+                <div class="col-md-12">
                     <button type="button" class="{{submitButton}} float-right" (click)="superGuardarEditar()">{{submitType}}</button>
                     <button type="button" class="btn btn-primary float-right" (click)="onCancel()">Cancelar</button>
                 </div>

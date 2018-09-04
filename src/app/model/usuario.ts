@@ -7,8 +7,3 @@ export interface Usuario {
     perfilUsuario: String; 
     estadoUsuario: Boolean;
 }
-
-export interface LoginUsuario {
-    correoUsuario: String;
-    claveUsuario: String;
-}

@@ -1,10 +1,6 @@
-import { Component, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validator, Validators } from '@angular/forms';
 import swal from 'sweetalert';
-import { LoginUsuario } from '../model/usuario';
-import { LoginService } from '../service/login.service';
-import { Router } from '@angular/router';
-
 
 
 
@@ -16,46 +12,46 @@ import { Router } from '@angular/router';
 })
 export class HomeComponent implements OnInit {
 
-  // usuario: Usuario;
-  // idMongo: String;
+  
   loginUsuarioGroup: FormGroup;
-  loginUsuario: LoginUsuario;
-  
-  
-  
+  verCorreoFormGroup: FormGroup;
 
 
 
 
-  constructor(private fb : FormBuilder, 
-              private _login: LoginService,
-              private routes: Router) {
+  constructor(private fb : FormBuilder) {
+    
 
-  
     this.loginUsuarioGroup = this.fb.group ({
-    correoUsuario: ['', [Validators.required, Validators.pattern(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,3}))$/)]],  
-    claveUsuario: ['', [Validators.required, Validators.minLength(8), Validators.pattern('^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$')]],
-    });
+      correoUsuario: ['', [Validators.required, Validators.pattern(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,3}))$/)]],  
+      claveUsuario: ['', [Validators.required, Validators.minLength(8), Validators.pattern('^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$')]],
+    })
+
+    this.verCorreoFormGroup = this.fb.group ({
+      verCorreo : ['',[Validators.required, Validators.pattern(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,3}))$/)]],
+
+    })
+
+
    }
 
   ngOnInit() {
+
   }
 
-  onLogin() {
-  this._login.onConsult(this.loginUsuarioGroup.value).subscribe((data) =>{
-   
-    if (!data.ok) {
-      swal('usuario o clave incorrecto');
-    } else {
-      localStorage.setItem('token', data.token);
-      this.routes.navigate(['usuario']);
-      
-    }
-  }, err => {
-    console.log(err);
-    swal('usuario o clave incorrecto');
+    
+ resetClave() {
 
-  });
+ }
+ 
+ olvideClave(){
+  this.verCorreoFormGroup.reset();
+
+ }
+ 
+  
+
+
   }
 
-}
+

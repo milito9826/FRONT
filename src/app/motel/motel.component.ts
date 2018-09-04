@@ -16,48 +16,45 @@ import swal from 'sweetalert';
 
 export class MotelComponent implements OnInit {
 
-  errores = ERROR_DEFS.motel;
+  latitude = 6.2518400;
+  longitude = -75.5635900;
+  locationChosen = false;
+  
+  
+  onChoseLocation (event) {
+    this.latitude = event.coords.lat;
+    this.longitude = event.coords.lng;
+    this.locationChosen = true;
+  }
+
   visible = false;
   guardar = true;
   modificar = false;
-  submitType: string = 'Guardar';
+  submitType: String = 'Guardar';
   selectedRow: number;
-  submitButton: string = "btn btn-warning"
+  submitButton: String = "btn btn-warning"
   motel: Motel;
   idMongo: String;
   formularioMotel: FormGroup;
-
-
-
-
-  motelModel: Motel = {
-    nitMotel: '',
-    nombreMotel: '',
-    direccionMotel: '',
-    telefonoMotel: '',
-    correoMotel: '',
-    pagWebMotel: '',
-    latitudMotel: '',
-    longitudMotel: '',
-    estadoMotel: true
-  }
+  
 
 
   moteles: Array<Motel> = [];
+  motelesInactivos: Array<Motel> = [];
 
   constructor(private _motelService: MotelService,
 	      private fb: FormBuilder) {
 
     this.formularioMotel = this.fb.group({
 
-      nitMotel: ['', [Validators.required, Validators.minLength(10)]],
-      nombreMotel: ['', Validators.required],
+      nitMotel: ['', [Validators.required, Validators.minLength(10), Validators.pattern('^[0-9]*$')]],
+      nombreMotel: ['', [Validators.required, Validators.minLength(2)]],
       direccionMotel: ['', Validators.required],
-      telefonoMotel: ['', Validators.required],
+      telefonoMotel: ['', [Validators.required, Validators.minLength(7), Validators.pattern('^[0-9]*$')]],
       correoMotel: ['', [Validators.required, Validators.pattern(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,3}))$/)]],
-      pagWebMotel: ['', Validators.required],
-      latitudMotel: ['', Validators.required],
-      longitudMotel: ['', Validators.required]
+      pagWebMotel: ['', [Validators.required, Validators.pattern('w{3}.[a-z]+\.?[a-z]{2,3}(|\.[a-z]{2,3})')]],
+      // latitudMotel: ['', Validators.required],
+      // longitudMotel: ['', Validators.required]
     
     })
   }
@@ -65,12 +62,13 @@ export class MotelComponent implements OnInit {
   ngOnInit() {
 
     this.onList();
+    this.onListInactivo();
   }
   onNew() {
     this.visible = true;
     this.submitType = 'Guardar';
     this.submitButton = 'btn btn-warning'
-
+    this.formularioMotel.reset();
   }
 
   onList() {
@@ -82,64 +80,60 @@ export class MotelComponent implements OnInit {
     });
   }
 
+  onListInactivo() {
+    this._motelService.onListInactivo().subscribe((data) => {
+      this.motelesInactivos = data.datos;
+
+    }, err => {
+
+    });
+  }
+
   onSave() {
-    this._motelService.onSave(this.motelModel).subscribe((data) => {
+
+    const datos = this.formularioMotel.value;
+
+    this._motelService.onSave(datos).subscribe((data) => {
       if (!data.ok) {
         swal("Hubo un error al guardar.");
       } else {
         swal("Se guardo correctamente.");
         this.onList();
-
-        this.motelModel = {
-          nitMotel: "",
-          nombreMotel: "",
-          direccionMotel: "",
-          telefonoMotel: "",
-          correoMotel: "",
-          pagWebMotel: "",
-          latitudMotel: "",
-          longitudMotel: "",
-          estadoMotel: true
-        }
+        this.formularioMotel.reset();
+        this.visible = false;
+       
       }
     }, err => {
-      alert(err);
+      swal('No se puede Crear un Usuario Vacio');
       
-    })
-
-    this.motelModel.nitMotel = '';
-    this.motelModel.nombreMotel = '';
-    this.motelModel.direccionMotel = '';
-    this.motelModel.telefonoMotel = '';
-    this.motelModel.correoMotel = '';
-    this.motelModel.pagWebMotel = '';
-    this.motelModel.latitudMotel = '';
-    this.motelModel.longitudMotel = '';
-    this.visible = false;
-
+    });
 
   }
 
   onCancel() {
     this.visible = false;
     this.submitButton = 'btn btn-warning'
+    this.formularioMotel.reset();
 
   }
 
   onDelete(motel) {
     this._motelService.onDelete(motel._id, false).subscribe((data) => {
       if (!data.ok) {
-        swal("Hubo un error al Eliminar.  ");
+        swal("Hubo un error al Modificar.  ");
       } else {
         swal("Se modifico correctamente");
         this.onList();
+        this.onListInactivo();
+        this.visible = false;
+        this.formularioMotel.reset();
       }
 
     }, err => {
       alert(err);
 
-    })
-    console.log(motel);
+    });
+    
   }
 
 
@@ -152,45 +146,46 @@ export class MotelComponent implements OnInit {
     this.idMongo = motel._id;
 
     this._motelService.onView(motel._id).subscribe((data) => {
-      this.motelModel.nitMotel = data.datos.nitMotel,
-        this.motelModel.nombreMotel = data.datos.nombreMotel,
-        this.motelModel.direccionMotel = data.datos.direccionMotel,
-        this.motelModel.telefonoMotel = data.datos.telefonoMotel,
-        this.motelModel.correoMotel = data.datos.correoMotel,
-        this.motelModel.pagWebMotel = data.datos.pagWebMotel,
-        this.motelModel.latitudMotel = data.datos.latitudMotel,
-        this.motelModel.longitudMotel = data.datos.longitudMotel
+
+      this.formularioMotel.patchValue({
+
+      nitMotel:  data.datos.nitMotel,
+      nombreMotel:  data.datos.nombreMotel,
+      direccionMotel: data.datos.direccionMotel,
+      telefonoMotel : data.datos.telefonoMotel,
+      correoMotel: data.datos.correoMotel,
+      pagWebMotel: data.datos.pagWebMotel
+
+    });
 
 
     }, err => {
       alert(err);
-      console.log("object");
+      
     })
   }
 
   onEditar() {
 
-    this._motelService.onEdit(this.motelModel, this.idMongo).subscribe((data) => {
+    const datos = this.formularioMotel.value;
+
+
+
+
+    this._motelService.onEdit(datos, this.idMongo).subscribe((data) => {
       this.visible = true;
       this.guardar = false;
       this.modificar = true;
       this.onList();
       this.submitType = 'Guardar';
       this.submitButton = 'btn btn-warning';
-      this.motelModel.nitMotel = '';
-      this.motelModel.nombreMotel = '';
-      this.motelModel.direccionMotel = '';
-      this.motelModel.telefonoMotel = '';
-      this.motelModel.correoMotel = '';
-      this.motelModel.pagWebMotel = '';
-      this.motelModel.latitudMotel = '';
-      this.motelModel.longitudMotel = '';
-
+      this.formularioMotel.reset();
+      
 
 
     }, err => {
       alert(err);
-      console.log("object");
+      
     })
   }
 
@@ -202,4 +197,30 @@ export class MotelComponent implements OnInit {
       this.onEditar();
     }
   }
+
+onActivate(motel) {
+    this._motelService.onDelete(motel._id, true).subscribe((data) => {
+      if (!data.ok) {
+        swal('Hubo un error al modificar.');
+      } else {
+        swal('Se modifico correctamente');
+        this.onList();
+        this.onListInactivo();
+      }
+
+    }, err => {
+      alert(err);
+
+    });
+
+
+  }
+
+
+
+
+
+
+
+
 }

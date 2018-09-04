@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule} from '@angular/common/http';
+import { RouterModule, Routes } from '@angular/router';
 
 import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -14,6 +15,9 @@ import { MotelComponent } from './motel/motel.component';
 import { HabitacionComponent } from './habitacion/habitacion.component';
 import { DescuentoComponent } from './descuento/descuento.component';
 import { ReservaComponent } from './reserva/reserva.component';
+import { appRoutes } from './app.routing';
+import { AgmCoreModule} from '@agm/core';
+
 
 
 @NgModule({
@@ -33,7 +37,11 @@ import { ReservaComponent } from './reserva/reserva.component';
     AppRoutingModule,
     NgbModule.forRoot(),
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    RouterModule.forRoot(appRoutes),
+    AgmCoreModule. forRoot({
+      apiKey: "AIzaSyAK92afr9RdKPAWCea7kg55y5fJnzKBkgg"
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]

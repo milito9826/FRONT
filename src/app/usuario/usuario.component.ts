@@ -49,8 +49,8 @@ export class UsuarioComponent implements OnInit {
     this.formularioUsuario = this.fb.group({
 
       documentoUsuario: ['', [Validators.required, Validators.minLength(10), Validators.pattern('^[0-9]*$')]],
-      nombreUsuario: ['', [Validators.required, Validators.minLength(3), Validators.pattern('[a-zA-Z]+')]],
-      apellidoUsuario: ['', [Validators.required, Validators.minLength(3), Validators.pattern('[a-zA-Z]+')]],
+      nombreUsuario: ['', [Validators.required, Validators.minLength(3), Validators.pattern('[a-z A-Z]+')]],
+      apellidoUsuario: ['', [Validators.required, Validators.minLength(3), Validators.pattern('[a-z A-Z]+')]],
       claveFormGroup: this.claveFormGroup,
       correoFormGroup: this.correoFormGroup
     });
@@ -87,6 +87,10 @@ export class UsuarioComponent implements OnInit {
     this.formularioUsuario.reset();
     this.claveFormGroup.reset();
     this.correoFormGroup.reset();
+    setTimeout(()=>{
+      (<HTMLInputElement>document.getElementById('documentoUsuario')).focus();
+    },1)
+    
 
   }
 
@@ -117,14 +121,17 @@ export class UsuarioComponent implements OnInit {
     datos.perfilUsuario = this.correoFormGroup.value.perfilUsuario;
     datos.correoUsuario = this.correoFormGroup.value.correoUsuario;
 
-    console.log(datos);
-
     this._usuarioService.onSave(datos).subscribe((data) => {
       if (!data.ok) {
         swal('Hubo un error al guardar');
       } else {
         swal('Se guardo correctamente');
         this.onList();
+        this.formularioUsuario.reset();
+        this.claveFormGroup.reset();
+        this.correoFormGroup.reset();
+        this.visible = false;
+        
 
 
       }
@@ -148,7 +155,7 @@ export class UsuarioComponent implements OnInit {
   onDelete(usuario) {
     this._usuarioService.onDelete(usuario._id, false).subscribe((data) => {
       if (!data.ok) {
-        swal('Hubo un error al guardar.');
+        swal('Hubo un error al Modificar.');
       } else {
         swal('Se modifico correctamente');
         this.onList();
@@ -163,7 +170,7 @@ export class UsuarioComponent implements OnInit {
       alert(err);
 
     });
-    console.log(usuario);
+    
   }
 
 
@@ -175,6 +182,9 @@ export class UsuarioComponent implements OnInit {
     this.submitButton = 'btn btn-danger';
     this.usuario = usuario;
     this.idMongo = usuario._id;
+    setTimeout(()=>{
+      (<HTMLInputElement>document.getElementById('documentoUsuario')).focus();
+    },1)
 
 
     this._usuarioService.onView(usuario._id).subscribe((data) => {
@@ -206,7 +216,7 @@ export class UsuarioComponent implements OnInit {
 
     }, err => {
       alert(err);
-      console.log('object');
+      
     });
 
   }
@@ -220,7 +230,7 @@ export class UsuarioComponent implements OnInit {
     datos.perfilUsuario = this.correoFormGroup.value.perfilUsuario;
     datos.correoUsuario = this.correoFormGroup.value.correoUsuario;
 
-
+    
 
     this._usuarioService.onEdit(datos, this.idMongo).subscribe((data) => {
       this.visible = false;
@@ -254,7 +264,7 @@ export class UsuarioComponent implements OnInit {
   onActivate(usuario) {
     this._usuarioService.onDelete(usuario._id, true).subscribe((data) => {
       if (!data.ok) {
-        swal('Hubo un error al guardar.');
+        swal('Hubo un error al modificar.');
       } else {
         swal('Se modifico correctamente');
         this.onList();
@@ -267,7 +277,6 @@ export class UsuarioComponent implements OnInit {
     });
     console.log(usuario);
   }
-
 
 
 }
