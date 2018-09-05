@@ -94,9 +94,20 @@
                 </div>
                 <div class="col-md-4">
                     <br>
-                    <input id="motelBuscar" class="controls" type="text" placeholder="Busqueda">
+                    <form name="searchForm" novalidate 
+                    ng-submit="search()">
+                        <div class="input-group">
+                            <input name="place" type="text" class="form-control" 
+                            ng-model="searchPlace" required autofocus />
+                            <span class="input-group-btn">
+                                <button class="btn btn-primary" 
+                                ng-disabled="searchForm.$invalid">Buscar Motel</button>
+                            </span>
+                        </div>
+                    </form>
+                    <!-- <input id="motelBuscar" class="controls" type="text" placeholder="Busqueda"> -->
                     <br>
-                    <agm-map [latitude]="latitude" [longitude]="longitude" (mapClick)="onChoseLocation($event)">
+                    <agm-map [latitude]="latitude" [longitude]="longitude"  [mapTypeId]="'roadmap'" [fullscreenControl]='true' [mapTypeControl]='true' (mapClick)="onChoseLocation($event)">
                         <agm-marker [latitude]="latitude" [longitude]="longitude" *ngIf="locationChosen">
                         </agm-marker>
                     </agm-map>

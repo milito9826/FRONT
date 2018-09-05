@@ -40,7 +40,7 @@ import { AgmCoreModule} from '@agm/core';
     HttpClientModule,
     RouterModule.forRoot(appRoutes),
     AgmCoreModule. forRoot({
-      apiKey: "AIzaSyAK92afr9RdKPAWCea7kg55y5fJnzKBkgg"
+      apiKey: "AIzaSyD91MvJgO2yjwDDHkEOshUuU8ZSxNsbbbI"
     })
   ],
   providers: [],

@@ -169,9 +169,6 @@ export class MotelComponent implements OnInit {
 
     const datos = this.formularioMotel.value;
 
-
-
-
     this._motelService.onEdit(datos, this.idMongo).subscribe((data) => {
       this.visible = true;
       this.guardar = false;
