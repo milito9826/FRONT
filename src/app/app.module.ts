@@ -18,8 +18,6 @@ import { ReservaComponent } from './reserva/reserva.component';
 import { appRoutes } from './app.routing';
 import { AgmCoreModule} from '@agm/core';
 
-
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -39,8 +37,9 @@ import { AgmCoreModule} from '@agm/core';
     FormsModule,
     HttpClientModule,
     RouterModule.forRoot(appRoutes),
-    AgmCoreModule. forRoot({
-      apiKey: "AIzaSyD91MvJgO2yjwDDHkEOshUuU8ZSxNsbbbI"
+    AgmCoreModule.forRoot({
+      apiKey: "AIzaSyBl4wJPHssg-A9ADDTr1rNRvDE1thT6NjU",
+      libraries: ["places"]
     })
   ],
   providers: [],

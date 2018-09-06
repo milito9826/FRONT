@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validator, Validators } from '@angular/forms';
 import swal from 'sweetalert';
 
-
+declare var $ : any;
 
 
 @Component({
@@ -46,7 +46,7 @@ export class HomeComponent implements OnInit {
  
  olvideClave(){
   this.verCorreoFormGroup.reset();
-
+    $("#resetClave").modal();
  }
  
   
