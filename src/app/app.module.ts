@@ -2,7 +2,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
-import { HttpClientModule} from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
+import { HttpModule } from '@angular/http';
 import { RouterModule, Routes } from '@angular/router';
 
 import { AppComponent } from './app.component';
@@ -17,6 +18,7 @@ import { DescuentoComponent } from './descuento/descuento.component';
 import { ReservaComponent } from './reserva/reserva.component';
 import { appRoutes } from './app.routing';
 import { AgmCoreModule} from '@agm/core';
+import { MessageService } from './service/message.service';
 
 @NgModule({
   declarations: [
@@ -36,13 +38,14 @@ import { AgmCoreModule} from '@agm/core';
     NgbModule.forRoot(),
     FormsModule,
     HttpClientModule,
+    HttpModule,
     RouterModule.forRoot(appRoutes),
     AgmCoreModule.forRoot({
       apiKey: "AIzaSyBl4wJPHssg-A9ADDTr1rNRvDE1thT6NjU",
       libraries: ["places"]
     })
   ],
-  providers: [],
+  providers: [MessageService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

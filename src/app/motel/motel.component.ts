@@ -79,8 +79,8 @@ export class MotelComponent implements OnInit {
   mapa(){
     //set google maps defaults
     this.zoom = 4;
-    this.latitude = 39.8282;
-    this.longitude = -98.5795;
+    this.latitude = 6.2518400;
+    this.longitude = -75.5635900;
 
     //set current position
     this.setCurrentPosition();
