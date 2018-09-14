@@ -83,8 +83,6 @@
                 <div class="col-md-4">
                     <label for="perfilUsuario" class="col-form-label">Perfil de Usuario</label>
                     <select class="form-control" type="" formControlName="perfilUsuario">
-                        
-                       
                         <option value="" disabled selected>Selecciona un Perfil</option>
                         <option *ngFor="let perfilUsuario of perfiles">{{perfilUsuario.name}}</option>
                     </select>

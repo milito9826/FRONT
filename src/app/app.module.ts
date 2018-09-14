@@ -19,6 +19,8 @@ import { ReservaComponent } from './reserva/reserva.component';
 import { appRoutes } from './app.routing';
 import { AgmCoreModule} from '@agm/core';
 import { MessageService } from './service/message.service';
+import { Select2Module } from "ng-select2-component";
+
 
 @NgModule({
   declarations: [
@@ -29,7 +31,7 @@ import { MessageService } from './service/message.service';
     MotelComponent,
     HabitacionComponent,
     DescuentoComponent,
-    ReservaComponent
+    ReservaComponent,
   ],
   imports: [
     BrowserModule,
@@ -43,7 +45,8 @@ import { MessageService } from './service/message.service';
     AgmCoreModule.forRoot({
       apiKey: "AIzaSyBl4wJPHssg-A9ADDTr1rNRvDE1thT6NjU",
       libraries: ["places"]
-    })
+    }),
+    Select2Module
   ],
   providers: [MessageService],
   bootstrap: [AppComponent]

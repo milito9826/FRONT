@@ -32,6 +32,10 @@ export class HabitacionService {
         return this._http.get(`${this.url}/habitacion` );
     }
 
+    onListInactivo() : Observable<any> {
+        return this._http.get(`${this.url}/habitacionInactivo` );
+    }
+
     onView(idHabitacion): Observable<any> {
         return this._http.get(`${this.url}/habitacion/${idHabitacion}`);
     }

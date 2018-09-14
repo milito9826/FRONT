@@ -170,6 +170,7 @@ export class MotelComponent implements OnInit {
 
     });
 
+    this.visible = false;
   }
 
   onCancel() {
