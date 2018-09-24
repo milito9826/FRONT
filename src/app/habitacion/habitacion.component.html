@@ -12,11 +12,23 @@
         <form [formGroup]="formHabitacion" (ngSubmit)="onSave()" *ngIf="visible">
 
             <div class="row">
+
                 <div class="col-md-4">
-                    <label for="numeroHabitacion-input" class="col-form-label">Numero Habitación</label>
+                    <label for="tipoHabitacion" class="col-form-label">Moteles</label>
+                    <select class="form-control" type="" formControlName="tipoHabitacion">
+                        <option value="" selected>Selecciona un Motel</option>
+                        <option *ngFor="let tipoHabitacion of tipos">{{tipoHabitacion.name}}</option>
+                    </select>
+                    <div *ngIf="formHabitacion.get('tipoHabitacion').invalid && (formHabitacion.get('tipoHabitacion').dirty || formHabitacion.get('tipoHabitacion').touched)" class="alert alert-danger">
+                        <div *ngIf="formHabitacion.get('tipoHabitacion').errors.required">
+                            Motel es Requerido
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <label for="numeroHabitacion-input" class="col-form-label">Número Habitación</label>
                     <input class="form-control" type="text" formControlName="numeroHabitacion" name="numeroHabitacion" placeholder="Digitar No. de la Habitación">
-                    <div *ngIf="formHabitacion.get('numeroHabitacion').invalid && (formHabitacion.get('numeroHabitacion').dirty || formHabitacion.get('numeroHabitacion').touched)"
-                        class="alert alert-danger">
+                    <div *ngIf="formHabitacion.get('numeroHabitacion').invalid && (formHabitacion.get('numeroHabitacion').dirty || formHabitacion.get('numeroHabitacion').touched)" class="alert alert-danger">
                         <div *ngIf="formHabitacion.get('numeroHabitacion').errors.required">
                             Número de habitación Requerida
                         </div>
@@ -35,8 +47,7 @@
                         <option value="" selected>Selecciona Tipo de Habitación</option>
                         <option *ngFor="let tipoHabitacion of tipos">{{tipoHabitacion.name}}</option>
                     </select>
-                    <div *ngIf="formHabitacion.get('tipoHabitacion').invalid && (formHabitacion.get('tipoHabitacion').dirty || formHabitacion.get('tipoHabitacion').touched)"
-                        class="alert alert-danger">
+                    <div *ngIf="formHabitacion.get('tipoHabitacion').invalid && (formHabitacion.get('tipoHabitacion').dirty || formHabitacion.get('tipoHabitacion').touched)" class="alert alert-danger">
                         <div *ngIf="formHabitacion.get('tipoHabitacion').errors.required">
                             Tipo de habitación es requerida
                         </div>
@@ -44,10 +55,25 @@
                 </div>
 
                 <div class="col-md-4">
+
+                </div>
+            </div>
+
+            <br>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <label for="servicioHabitacion">Servicios de la Habitación</label>
+                    <select2 [data]="data" multiple="true" (update)="update_valores_servicios($event)" id="selec2-9" formControlName="servicioHabitacion" placeholder="Escoger los Servicios">
+                    </select2>
+                    <div *ngIf="valores_servicios.length == 0" class="alert alert-danger">
+                        Al menos un servicio es requerido
+                    </div>
+                </div>
+                <div class="col-md-4">
                     <label for="precioHabitacion-input" class="col-form-label">Precio Habitación</label>
-                    <input class="form-control" type="number" formControlName="precioHabitacion" name="precioHabitacion" placeholder="Digitar Precio de la Habitación">
-                    <div *ngIf="formHabitacion.get('precioHabitacion').invalid && (formHabitacion.get('precioHabitacion').dirty || formHabitacion.get('precioHabitacion').touched)"
-                        class="alert alert-danger">
+                    <input class="form-control" type="number" formControlName="precioHabitacion" placeholder="Digitar Precio de la Habitación">
+                    <div *ngIf="formHabitacion.get('precioHabitacion').invalid && (formHabitacion.get('precioHabitacion').dirty || formHabitacion.get('precioHabitacion').touched)" class="alert alert-danger">
                         <div *ngIf="formHabitacion.get('precioHabitacion').errors.required">
                             Precio de la Habitación requerido
                         </div>
@@ -57,27 +83,12 @@
 
                     </div>
                 </div>
-            </div>
 
-            <br>
-
-            <div class="row">
-                <div class="col-md-4">
-                    <label for="servicioHabitacion">Servicios de la Habitación</label>
-                    <select2 [data]="data" multiple="true" (update)="update_valores_servicios($event)" id="selec2-9" formControlName="servicioHabitacion"
-                        placeholder="Escoger los Servicios">
-                    </select2>
-                    <div *ngIf="valores_servicios.length == 0"
-                        class="alert alert-danger">
-                            Al menos un servicio es requerido
-                    </div>
-                </div>
 
                 <div class="col-md-4">
                     <label for="descuentoHabitacion-input">Descuento Habitación</label>
-                    <input class="form-control" type="number" formControlName="descuentoHabitacion" name="descuentoHabitacion" placeholder="Digitar % Descuento de la Habitación">
-                    <div *ngIf="formHabitacion.get('descuentoHabitacion').invalid && (formHabitacion.get('descuentoHabitacion').dirty || formHabitacion.get('descuentoHabitacion').touched)"
-                        class="alert alert-danger">
+                    <input class="form-control" type="number" formControlName="descuentoHabitacion" placeholder="Digitar % Descuento de la Habitación">
+                    <div *ngIf="formHabitacion.get('descuentoHabitacion').invalid && (formHabitacion.get('descuentoHabitacion').dirty || formHabitacion.get('descuentoHabitacion').touched)" class="alert alert-danger">
                         <div *ngIf="formHabitacion.get('descuentoHabitacion').errors.required">
                             Descuento de la Habitación requerido
                         </div>
@@ -87,15 +98,20 @@
                     </div>
                 </div>
 
-                <div class="col-md-4">
-                    <label for="fotoHabitacion-input">Foto(s) Habitación</label>
-                    <input #imageInput type="file" accept="image/*" (change)="processFile(imageInput)" multiple>
-                </div>
             </div>
             <br>
             <div class="row">
+                <div class="col-md-4">
+                    <label for="selecImagen-input" id="selecImagen">
+                            Subir Fotos Habitación  
+                    </label>
+                    <input type="file" multiple>
+                    <!-- //<p> Imagenes a Subir {{uploader?.queue?.length}}</p> -->
+                </div>
+            </div>
+            <div class="row">
                 <div class="col-md-12">
-                    <button type="submit" class="{{submitButton}} float-right">{{submitType}}</button>
+                    <button type="submit" class="{{submitButton}} float-right" (click)="superGuardarEditar()">{{submitType}}</button>
                     <button type="button" class="btn btn-primary float-right" (click)="onCancel()">Cancelar</button>
                 </div>
             </div>
@@ -122,12 +138,12 @@
                     <td>{{ habitacion.servicioHabitacion }}</td>
                     <td>{{ habitacion.precioHabitacion }}</td>
                     <td>{{ habitacion.descuentoHabitacion }}</td>
-                    <td>{{ habitacion.estadohabitacion?"Activo":"Inactivo"}}</td>
+                    <td>{{ habitacion.estadoHabitacion?"Activo":"Inactivo"}}</td>
                     <td>
                         <button type="button" class="btn btn-info" (click)="onEdit(habitacion, i)">Modificar</button>
                     </td>
                     <td>
-                        <button type="button" class="btn btn-danger" (click)="onDelete()">Eliminar</button>
+                        <button type="button" class="btn btn-danger" (click)="onDelete(habitacion)">Eliminar</button>
                     </td>
                 </tr>
             </tbody>
@@ -148,24 +164,24 @@
                 <table class="table table-striped">
                     <thead>
                         <tr>
-                                <th>#</th>
-                                <th>NUMERO HAB.</th>
-                                <th>TIPO HAB.</th>
-                                <th>SERVICIO HAB.</th>
-                                <th>PRECIO HAB.</th>
-                                <th>DESCUENTO HAB.</th>
-                                <th>ESTADO HAB.</th>
+                            <th>#</th>
+                            <th>NUMERO HAB.</th>
+                            <th>TIPO HAB.</th>
+                            <th>SERVICIO HAB.</th>
+                            <th>PRECIO HAB.</th>
+                            <th>DESCUENTO HAB.</th>
+                            <th>ESTADO HAB.</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr *ngFor="let habitacion of habitacionesInactivos; let i = index">
                             <th scope="row">{{ i + 1 }}</th>
-                                <td>{{ habitacion.numeroHabitacion }}</td>
-                                <td>{{ habitacion.tipoHabitacion }}</td>
-                                <td>{{ habitacion.servicioHabitacion }}</td>
-                                <td>{{ habitacion.precioHabitacion }}</td>
-                                <td>{{ habitacion.descuentoHabitacion }}</td>
-                                <td>{{ habitacion.estadohabitacion?"Activo":"Inactivo"}}</td>
+                            <td>{{ habitacion.numeroHabitacion }}</td>
+                            <td>{{ habitacion.tipoHabitacion }}</td>
+                            <td>{{ habitacion.servicioHabitacion }}</td>
+                            <td>{{ habitacion.precioHabitacion }}</td>
+                            <td>{{ habitacion.descuentoHabitacion }}</td>
+                            <td>{{ habitacion.estadohabitacion?"Activo":"Inactivo"}}</td>
                             <td>
                                 <button type="button" class="btn btn-primary" (click)="onActivate(habitacion, i)">Activar</button>
                             </td>

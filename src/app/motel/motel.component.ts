@@ -64,7 +64,7 @@ export class MotelComponent implements OnInit {
       direccionMotel: ['', Validators.required],
       telefonoMotel: ['', [Validators.required, Validators.minLength(7), Validators.pattern('^[0-9]*$')]],
       correoMotel: ['', [Validators.required, Validators.pattern(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,3}))$/)]],
-      pageWebMotel: ['', [Validators.required, Validators.pattern('w{3}.[a-z]+\.?[a-z]{2,3}(|\.[a-z]{2,3})')]],
+      pagWebMotel: ['', [Validators.required, Validators.pattern('w{3}.[a-z]+\.?[a-z]{2,3}(|\.[a-z]{2,3})')]],
       // latitudMotel: ['', Validators.required],
       // longitudMotel: ['', Validators.required]
 

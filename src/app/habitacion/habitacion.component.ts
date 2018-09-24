@@ -19,9 +19,9 @@ import { Select2Data } from 'ng-select2-component';
 
 })
 
-
-
 export class HabitacionComponent implements OnInit {
+
+  selectedFile = null;
 
   data: Select2Data = [
     { value: 'AA', label: 'Aire Acondicionado' },
@@ -31,7 +31,9 @@ export class HabitacionComponent implements OnInit {
 
   ];
 
-  valores_servicios: string[] = [];
+  valores_servicios = [];
+
+  update_servicios = [];
 
   visible = false;
   guardar = true;
@@ -40,18 +42,18 @@ export class HabitacionComponent implements OnInit {
   selectedRow: number;
   submitButton: string = "btn btn-warning"
   formHabitacion: FormGroup;
-  habitacion : Habitacion;
+  habitacion: Habitacion;
   idMongo: String;
   tipos: any[];
 
-  habitacionModel: Habitacion = {
-    numeroHabitacion: '',
-    tipoHabitacion: '',
-    servicioHabitacion: '',
-    precioHabitacion: 0,
-    descuentoHabitacion: 0,
-    estadoHabitacion: true
-  }
+  // habitacionModel: Habitacion = {
+  //   numeroHabitacion: '',
+  //   tipoHabitacion: '',
+  //   servicioHabitacion: [],
+  //   precioHabitacion: 0,
+  //   descuentoHabitacion: 0,
+  //   fotoHabitacion: ''
+  //}
 
 
   habitaciones: Array<Habitacion> = [];
@@ -61,14 +63,16 @@ export class HabitacionComponent implements OnInit {
 
     this.tipos = [{ name: 'Suite' }, { name: 'Doble' }, { name: 'Sencilla' }, { name: 'Deluxe' }];
 
+
+
     this.formHabitacion = this.fb.group({
 
       numeroHabitacion: ['', [Validators.required, Validators.minLength(3), Validators.pattern('^[0-9]*$')]],
       tipoHabitacion: ['', Validators.required],
       servicioHabitacion: ['', Validators.required],
-      precioHabitacion: ['', [Validators.required, Validators.min(2)]],
-      descuentoHabitacion: ['', [Validators.required, Validators.max(2)]],
-      fotoHabitacion: ['', Validators.required]
+      precioHabitacion: ['', Validators.required],
+      descuentoHabitacion: ['', Validators.required],
+      fotoHabitacion: ['', Validators.required],
 
     });
 
@@ -111,7 +115,7 @@ export class HabitacionComponent implements OnInit {
     const datos = this.formHabitacion.value;
 
     datos.tipoHabitacion = this.formHabitacion.value.tipoHabitacion;
-    
+    datos.servicioHabitacionn = this.valores_servicios;
 
     this._habitacionService.onSave(datos).subscribe((data) => {
       if (!data.ok) {
@@ -124,7 +128,7 @@ export class HabitacionComponent implements OnInit {
 
       }
     }, err => {
-      swal('No se puede Crear una Habtiacion Vacia');
+      swal('No se puede Crear una Habitacion Vacia _ ' + err);
 
     });
     // this._habitacionService.onSave(this.habitacionModel).subscribe((data) => {
@@ -156,24 +160,130 @@ export class HabitacionComponent implements OnInit {
     this.submitButton = 'btn btn-warning'
     this.formHabitacion.reset();
     this.valores_servicios = [];
-    
+
   }
 
-  onDelete(index: number) {
+  onDelete(habitacion) {
 
-    this.habitaciones.splice(index, 1);
+    this._habitacionService.onDelete(habitacion._id, false).subscribe((data) => {
+      if (!data.ok) {
+        swal("Hubo un error al Modificar.  ");
+      } else {
+        swal("Se modifico correctamente");
+        this.onList();
+        this.onListInactivo();
+        this.visible = false;
+        this.formHabitacion.reset();
+      }
+
+    }, err => {
+      alert(err);
+
+    });
   }
 
 
-  onEdit() {
+  onEdit(habitacion) {
+
     this.visible = true;
     this.submitType = 'Confirmar Cambios';
     this.submitButton = 'btn btn-danger';
+    this.habitacion = habitacion;
+    this.idMongo = habitacion._id;
+
+    setTimeout(() => {
+      this.valores_servicios = habitacion.servicioHabitacion;
+     }, 500);
+
+
+    this._habitacionService.onView(habitacion._id).subscribe((data) => {
+
+      this.formHabitacion.patchValue({
+
+        numeroHabitacion: data.datos.numeroHabitacion,
+        tipoHabitacion: data.datos.tipoHabitacion,
+        // servicioHabitacion: data.datos.servicioHabitacion,
+        precioHabitacion: data.datos.precioHabitacion,
+        descuentoHabitacion: data.datos.descuentoHabitacion,
+      });
+
+      // this.valores_servicios = JSON.parse();
+
+    }, err => {
+      alert(err);
+
+    })
+
+
+  }
+
+  onEditar() {
+
+    const datos = this.formHabitacion.value;
+
+    this._habitacionService.onEdit(datos, this.idMongo).subscribe((data) => {
+      this.visible = false;
+      this.guardar = false;
+      this.modificar = true;
+      this.onList();
+      this.submitType = 'Guardar';
+      this.submitButton = 'btn btn-warning';
+      this.formHabitacion.reset();
+      this.valores_servicios = [];
+
+
+    }, err => {
+      alert(err);
+
+    })
+  }
+
+
+  superGuardarEditar() {
+    if (this.submitType === 'Guardar') {
+      this.onSave();
+    } else {
+      this.onEditar();
+    }
+  }
+
+  onActivate(habitacion) {
+    this._habitacionService.onDelete(habitacion._id, true).subscribe((data) => {
+      if (!data.ok) {
+        swal('Hubo un error al modificar.');
+      } else {
+        swal('Se modifico correctamente');
+        this.onList();
+        this.onListInactivo();
+      }
+
+    }, err => {
+      alert(err);
+
+    });
+
 
   }
 
   update_valores_servicios(value: string[]) {
     this.valores_servicios = value;
   }
+
+  processFile(event) {
+    console.log(event);
+
+  }
+
+
+//   document.getElementById("upload_widget_opener").addEventListener("click", function() {
+//     cloudinary.openUploadWidget({
+//             cloud_name: 'motelsinn',
+//             upload_preset: 'mddyvuj6'
+//         },
+//         function(error, result) {
+//             console.log(error, result)
+//         });
+// }, false);
+
 
 }

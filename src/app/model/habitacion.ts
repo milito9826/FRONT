@@ -1,8 +1,9 @@
 export interface Habitacion {
     numeroHabitacion: String;
     tipoHabitacion: String;
-    servicioHabitacion: String;
+    servicioHabitacion: String[];
     precioHabitacion: Number ;
     descuentoHabitacion: Number;
-    estadoHabitacion: Boolean
+    fotoHabitacion: String;
+    estadoHabitacion: Boolean;
 }

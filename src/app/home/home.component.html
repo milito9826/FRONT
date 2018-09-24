@@ -57,10 +57,10 @@
 
                                             <form (ngSubmit)="contactForm()" [formGroup]="verCorreoFormGroup" id="register-form" role="form" autocomplete="off" class="form" method="post">
 
-                                                <div class="form-group" >
+                                                <div class="form-group">
                                                     <div class="input-group">
                                                         <div class="col-md-12">
-                                                            <input id="verCorreo" type="email" class="form-control" formControlName="verCorreo" placeholder="Digitar Correo" >
+                                                            <input id="verCorreo" type="email" class="form-control" formControlName="verCorreo" placeholder="Digitar Correo">
                                                             <div *ngIf="verCorreoFormGroup.get('verCorreo').invalid && (verCorreoFormGroup.get('verCorreo').dirty || verCorreoFormGroup.get('verCorreo').touched)" class="alert alert-danger">
                                                                 <div *ngIf="verCorreoFormGroup.get('verCorreo').errors.required">
                                                                     Correo Usuario Requerido
@@ -74,7 +74,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
-                                                    <input type="submit" name="recover-submit" class="btn btn-lg btn-primary btn-block" value="Resetear Clave">
+                                                    <input type="submit" name="recover-submit" class="btn btn-lg btn-primary btn-block" value="Enviar Correo">
                                                 </div>
 
                                                 <input type="hidden" class="hide" name="token" id="token" value="">

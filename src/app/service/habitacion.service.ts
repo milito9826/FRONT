@@ -24,8 +24,8 @@ export class HabitacionService {
         return this._http.post(`${this.url}/habitacion`, habitacion);
     }
 
-    onEdit(habitacion: Habitacion, idHabitacion) {
-        return this._http.patch(`${this.url}/habitacion/${idHabitacion}`, habitacion);
+    onEdit(habitacion: Habitacion, _id):  Observable<any> {
+        return this._http.put(`${this.url}/habitacion/${_id}`, habitacion);
     }
 
     onList() : Observable<any> {
@@ -36,11 +36,11 @@ export class HabitacionService {
         return this._http.get(`${this.url}/habitacionInactivo` );
     }
 
-    onView(idHabitacion): Observable<any> {
-        return this._http.get(`${this.url}/habitacion/${idHabitacion}`);
+    onView(_id): Observable<any> {
+        return this._http.get(`${this.url}/habitacion/${_id}`);
     }
 
-    onDelete(idHabitacion, estadoHabitacion) {
-        return this._http.delete(`${this.url}/habitacion/${idHabitacion}/${estadoHabitacion}`);
+    onDelete(_id, estadoHabitacion): Observable<any> {
+        return this._http.delete(`${this.url}/habitacion/${_id}/${estadoHabitacion}`);
     }
 }
