@@ -94,7 +94,7 @@
                 </div>
                 <div class="col-md-4">
                     <br>
-                    <form name="searchForm" novalidate 
+                    <!-- <form name="searchForm" novalidate 
                     ng-submit="search()">
                         <div class="input-group">
                             <input name="place" type="text" class="form-control" 
@@ -104,11 +104,12 @@
                                 ng-disabled="searchForm.$invalid">Buscar Motel</button>
                             </span>
                         </div>
-                    </form>
+                    </form> -->
                     <!-- <input id="motelBuscar" class="controls" type="text" placeholder="Busqueda"> -->
-                    <br>
-                    <agm-map [latitude]="latitude" [longitude]="longitude"  [mapTypeId]="'roadmap'" [fullscreenControl]='true' [mapTypeControl]='true' (mapClick)="onChoseLocation($event)">
-                        <agm-marker [latitude]="latitude" [longitude]="longitude" *ngIf="locationChosen">
+                    <input id="mapa_buscar" placeholder="search for location" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" class="form-control" #buscar>
+
+                    <agm-map [latitude]="latitude" [longitude]="longitude" [mapTypeId]="'roadmap'" [fullscreenControl]='true' [mapTypeControl]='true'>
+                        <agm-marker [latitude]="latitude" [longitude]="longitude">
                         </agm-marker>
                     </agm-map>
                     <!-- mapa   -->

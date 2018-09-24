@@ -29,7 +29,7 @@
                     </div>
 
                 </div>
-                <a data-toggle="modal" data-target="#resetClave" href="#" (click)="olvideClave"> Olvide la Clave</a> &nbsp;
+                <a href="#" (click)="olvideClave()"> Olvide la Clave</a> &nbsp;
                 <button type="button" class="btn rounded-btn float-right" (click)="onLogin()"> Ingresar </button> &nbsp;
 
             </form>
@@ -55,9 +55,9 @@
                                         <p>Puedes Resetear tu Clave aqui.</p>
                                         <div class="panel-body">
 
-                                            <form id="register-form" role="form" autocomplete="off" class="form" method="post">
+                                            <form (ngSubmit)="contactForm()" [formGroup]="verCorreoFormGroup" id="register-form" role="form" autocomplete="off" class="form" method="post">
 
-                                                <div class="form-group" [formGroup]="verCorreoFormGroup">
+                                                <div class="form-group">
                                                     <div class="input-group">
                                                         <div class="col-md-12">
                                                             <input id="verCorreo" type="email" class="form-control" formControlName="verCorreo" placeholder="Digitar Correo">
@@ -74,7 +74,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
-                                                    <input type="submit" name="recover-submit" class="btn btn-lg btn-primary btn-block" (click)="resetClave()" value="Resetear Clave">
+                                                    <input type="submit" name="recover-submit" class="btn btn-lg btn-primary btn-block" value="Enviar Correo">
                                                 </div>
 
                                                 <input type="hidden" class="hide" name="token" id="token" value="">

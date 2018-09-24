@@ -25,7 +25,7 @@ export class MotelService {
         return this._http.post(`${this.url}/motel`, motel);
     }
 
-    onEdit(motel: Motel, nitMotel) {
+    onEdit(motel: Motel, nitMotel):  Observable<any> {
         return this._http.put(`${this.url}/motel/${nitMotel}`, motel);
     }
 

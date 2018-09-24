@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validator, Validators } from '@angular/forms';
 import swal from 'sweetalert';
+import { MessageService } from '../service/message.service';
 
 
+declare var $ : any;
 
 
 @Component({
@@ -17,9 +19,7 @@ export class HomeComponent implements OnInit {
   verCorreoFormGroup: FormGroup;
 
 
-
-
-  constructor(private fb : FormBuilder) {
+  constructor(private fb : FormBuilder, public _MessageService: MessageService) {
     
 
     this.loginUsuarioGroup = this.fb.group ({
@@ -40,16 +40,18 @@ export class HomeComponent implements OnInit {
   }
 
     
- resetClave() {
-
- }
+ 
  
  olvideClave(){
   this.verCorreoFormGroup.reset();
-
+    $("#resetClave").modal();
  }
  
-  
+ contactForm() {
+  this._MessageService.sendMessage(this.verCorreoFormGroup.value).subscribe(() => {
+  swal("Formulario de contacto", "Mensaje enviado correctamente", 'success');
+  });
+  }
 
 
   }

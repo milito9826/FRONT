@@ -4,8 +4,9 @@ import { Motel } from '../model/motel';
 import { MotelService } from '../service/motel.service';
 import { ERROR_DEFS } from '../validators/messages-validators';
 import swal from 'sweetalert';
-
-
+import { ElementRef, NgModule, NgZone, ViewChild } from '@angular/core';
+import { BrowserModule } from "@angular/platform-browser";
+import { AgmCoreModule, MapsAPILoader } from '@agm/core';
 
 @Component({
   selector: 'app-motel',
@@ -16,16 +17,24 @@ import swal from 'sweetalert';
 
 export class MotelComponent implements OnInit {
 
-  latitude = 6.2518400;
-  longitude = -75.5635900;
-  locationChosen = false;
-  
-  
-  onChoseLocation (event) {
-    this.latitude = event.coords.lat;
-    this.longitude = event.coords.lng;
-    this.locationChosen = true;
-  }
+  public latitude: number;
+  public longitude: number;
+  public buscarControl: FormControl;
+  public zoom: number;
+
+  @ViewChild("buscar")
+  public searchElementRef: ElementRef;
+
+  // latitude = 6.2518400;
+  // longitude = -75.5635900;
+  // locationChosen = false;
+
+
+  // onChoseLocation (event) {
+  //   this.latitude = event.coords.lat;
+  //   this.longitude = event.coords.lng;
+  //   this.locationChosen = true;
+  // }
 
   visible = false;
   guardar = true;
@@ -36,14 +45,17 @@ export class MotelComponent implements OnInit {
   motel: Motel;
   idMongo: String;
   formularioMotel: FormGroup;
-  
 
 
   moteles: Array<Motel> = [];
   motelesInactivos: Array<Motel> = [];
 
-  constructor(private _motelService: MotelService,
-	      private fb: FormBuilder) {
+  constructor(
+    private _motelService: MotelService,
+    private fb: FormBuilder,
+    private mapsAPILoader: MapsAPILoader,
+    private ngZone: NgZone
+  ) {
 
     this.formularioMotel = this.fb.group({
 
@@ -55,26 +67,76 @@ export class MotelComponent implements OnInit {
       pagWebMotel: ['', [Validators.required, Validators.pattern('w{3}.[a-z]+\.?[a-z]{2,3}(|\.[a-z]{2,3})')]],
       // latitudMotel: ['', Validators.required],
       // longitudMotel: ['', Validators.required]
-    
+
     })
   }
 
   ngOnInit() {
-
     this.onList();
     this.onListInactivo();
   }
+
+  mapa(){
+    //set google maps defaults
+    this.zoom = 4;
+    this.latitude = 6.2518400;
+    this.longitude = -75.5635900;
+
+    //set current position
+    this.setCurrentPosition();
+
+    let input = <HTMLInputElement>document.getElementById("mapa_buscar");
+
+    //load Places Autocomplete
+    this.mapsAPILoader.load().then(() => {
+      let autocomplete = new google.maps.places.Autocomplete(input, {
+        types: ["address"]
+      });
+      autocomplete.addListener("place_changed", () => {
+        this.ngZone.run(() => {
+          //get the place result
+          let place: google.maps.places.PlaceResult = autocomplete.getPlace();
+
+          //verify result
+          if (place.geometry === undefined || place.geometry === null) {
+            return;
+          }
+
+          //set latitude, longitude and zoom
+          this.latitude = place.geometry.location.lat();
+          this.longitude = place.geometry.location.lng();
+          this.zoom = 12;
+        });
+      });
+    });
+
+  }
+
+  private setCurrentPosition() {
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        this.latitude = position.coords.latitude;
+        this.longitude = position.coords.longitude;
+        this.zoom = 12;
+      });
+    }
+  }
+
+
   onNew() {
     this.visible = true;
     this.submitType = 'Guardar';
     this.submitButton = 'btn btn-warning'
     this.formularioMotel.reset();
+    setTimeout(()=>{
+      this.mapa();
+    }, 1000)
   }
 
   onList() {
     this._motelService.onList().subscribe((data) => {
       this.moteles = data.datos;
-      
+
     }, err => {
 
     });
@@ -101,13 +163,14 @@ export class MotelComponent implements OnInit {
         this.onList();
         this.formularioMotel.reset();
         this.visible = false;
-       
+
       }
     }, err => {
       swal('No se puede Crear un Usuario Vacio');
-      
+
     });
 
+    this.visible = false;
   }
 
   onCancel() {
@@ -133,7 +196,7 @@ export class MotelComponent implements OnInit {
       alert(err);
 
     });
-    
+
   }
 
 
@@ -149,19 +212,19 @@ export class MotelComponent implements OnInit {
 
       this.formularioMotel.patchValue({
 
-      nitMotel:  data.datos.nitMotel,
-      nombreMotel:  data.datos.nombreMotel,
-      direccionMotel: data.datos.direccionMotel,
-      telefonoMotel : data.datos.telefonoMotel,
-      correoMotel: data.datos.correoMotel,
-      pagWebMotel: data.datos.pagWebMotel
+        nitMotel: data.datos.nitMotel,
+        nombreMotel: data.datos.nombreMotel,
+        direccionMotel: data.datos.direccionMotel,
+        telefonoMotel: data.datos.telefonoMotel,
+        correoMotel: data.datos.correoMotel,
+        pagWebMotel: data.datos.pagWebMotel
 
-    });
+      });
 
 
     }, err => {
       alert(err);
-      
+
     })
   }
 
@@ -170,19 +233,19 @@ export class MotelComponent implements OnInit {
     const datos = this.formularioMotel.value;
 
     this._motelService.onEdit(datos, this.idMongo).subscribe((data) => {
-      this.visible = true;
+      this.visible = false;
       this.guardar = false;
       this.modificar = true;
       this.onList();
       this.submitType = 'Guardar';
       this.submitButton = 'btn btn-warning';
       this.formularioMotel.reset();
-      
+
 
 
     }, err => {
       alert(err);
-      
+
     })
   }
 
@@ -195,7 +258,7 @@ export class MotelComponent implements OnInit {
     }
   }
 
-onActivate(motel) {
+  onActivate(motel) {
     this._motelService.onDelete(motel._id, true).subscribe((data) => {
       if (!data.ok) {
         swal('Hubo un error al modificar.');

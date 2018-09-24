@@ -2,7 +2,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
-import { HttpClientModule} from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
+import { HttpModule } from '@angular/http';
 import { RouterModule, Routes } from '@angular/router';
 
 import { AppComponent } from './app.component';
@@ -17,7 +18,8 @@ import { DescuentoComponent } from './descuento/descuento.component';
 import { ReservaComponent } from './reserva/reserva.component';
 import { appRoutes } from './app.routing';
 import { AgmCoreModule} from '@agm/core';
-
+import { MessageService } from './service/message.service';
+import { Select2Module } from "ng-select2-component";
 
 
 @NgModule({
@@ -29,7 +31,7 @@ import { AgmCoreModule} from '@agm/core';
     MotelComponent,
     HabitacionComponent,
     DescuentoComponent,
-    ReservaComponent
+    ReservaComponent,
   ],
   imports: [
     BrowserModule,
@@ -38,12 +40,15 @@ import { AgmCoreModule} from '@agm/core';
     NgbModule.forRoot(),
     FormsModule,
     HttpClientModule,
+    HttpModule,
     RouterModule.forRoot(appRoutes),
-    AgmCoreModule. forRoot({
-      apiKey: "AIzaSyD91MvJgO2yjwDDHkEOshUuU8ZSxNsbbbI"
-    })
+    AgmCoreModule.forRoot({
+      apiKey: "AIzaSyBl4wJPHssg-A9ADDTr1rNRvDE1thT6NjU",
+      libraries: ["places"]
+    }),
+    Select2Module
   ],
-  providers: [],
+  providers: [MessageService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
